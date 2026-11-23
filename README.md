@@ -51,3 +51,24 @@ python -m unittest test_expense_tracker.py -v
 - Persisting data safely as JSON between runs
 - Aggregating data with `collections.defaultdict`
 - Building subcommands with `argparse`
+
+## Case study
+
+**The problem.** A freelancer or small shop needs to know where the money
+goes without maintaining a complicated spreadsheet.
+
+**Technologies.** Pure Python 3. Entries live in a JSON file in the user's
+home folder, `collections.defaultdict` powers the category totals, and
+`argparse` provides the `add`, `report` and `list` subcommands.
+
+**The result.** One command records income or an expense; another prints a
+monthly report with totals, profit and a per-category breakdown sorted from
+largest to smallest. Input is validated (amounts must be positive, kinds are
+checked), and a corrupted store file is reported clearly instead of crashing.
+
+**Limits (being upfront).** There is no database server - the JSON file is
+the store, chosen deliberately so the tool needs zero setup. Data is not
+encrypted; it is as safe as the computer it sits on, so the honest advice is
+to keep normal device backups and a screen lock. It is single-user and
+local: for several people or much larger volume, the next step is moving the
+store to SQLite, which the `Ledger` class is structured to allow.
